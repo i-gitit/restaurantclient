@@ -3,7 +3,7 @@ import * as ActionTypes from './ActionTypes';
 // The auth reducer. The starting state sets authentication
 // based on a token being in local storage. In a real app,
 // we would also want a util to check if the token is expired.
-export const Auth = (state = {
+export const Register = (state = {
         isLoading: false,
         errMess: null
     }, action) => {
