@@ -37,7 +37,7 @@ import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
     }
 
-    function RenderComments({comments, postComment, dishId}) {
+    function RenderComments({comments, postComment, dishId, auth, deleteComment}) {
         if (comments != null)
             return(
                 <div className="col-12 col-md-5 m-1">
@@ -50,8 +50,14 @@ import { FadeTransform, Fade, Stagger } from 'react-animation-components';
                                         <li>
                                         <p>{comment.comment}</p>
                                         <p>{comment.rating} stars</p>
-                                        <p>-- {comment.author.firstname} {comment.author.lastname} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.updatedAt)))}</p>
-                                        </li>
+                                        <p>-- {comment.author.firstname} {comment.author.lastname} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.updatedAt)))} &nbsp; 
+                                        {auth.isAuthenticated && auth.user.username===comment.author.username ? 
+                                            
+                                                <span class='fa fa-trash fa-lg' role='button' onClick={()=> deleteComment(comment._id) }></span>
+                                            :
+                                            <span></span>
+                                        }
+                                        </p></li>
                                     </Fade>
                                 );
                             })}
@@ -166,7 +172,10 @@ import { FadeTransform, Fade, Stagger } from 'react-animation-components';
                         <RenderDish dish={props.dish} favorite={props.favorite} postFavorite={props.postFavorite} />
                         <RenderComments comments={props.comments}
                             postComment={props.postComment}
-                            dishId={props.dish._id} />
+                            dishId={props.dish._id} 
+                            auth={props.auth}
+                            deleteComment={props.deleteComment}
+                            />
                     </div>
                 </div>
             );

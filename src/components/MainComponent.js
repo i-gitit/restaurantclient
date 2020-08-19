@@ -9,7 +9,7 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postComment, postFeedback, fetchDishes, fetchComments, fetchPromos, fetchLeaders, loginUser, logoutUser,signupUser, fetchFavorites, postFavorite, deleteFavorite } from '../redux/ActionCreators';
+import { postComment, postFeedback, fetchDishes, fetchComments, fetchPromos, fetchLeaders, loginUser, logoutUser,signupUser, fetchFavorites, postFavorite, deleteFavorite,deleteComment } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -37,7 +37,8 @@ const mapDispatchToProps = (dispatch) => ({
   logoutUser: () => dispatch(logoutUser()),
   fetchFavorites: () => dispatch(fetchFavorites()),
   postFavorite: (dishId) => dispatch(postFavorite(dishId)),
-  deleteFavorite: (dishId) => dispatch(deleteFavorite(dishId))
+  deleteFavorite: (dishId) => dispatch(deleteFavorite(dishId)),
+  deleteComment: (dishId) => dispatch(deleteComment(dishId))
 });
 
 class Main extends Component {
@@ -79,6 +80,8 @@ class Main extends Component {
           postComment={this.props.postComment}
           favorite={this.props.favorites.favorites.dishes.some((dish) => dish._id === match.params.dishId)}
           postFavorite={this.props.postFavorite}
+          auth={this.props.auth}
+          deleteComment={this.props.deleteComment}
           />
         :
         <DishDetail dish={this.props.dishes.dishes.filter((dish) => dish._id === match.params.dishId)[0]}
@@ -89,6 +92,8 @@ class Main extends Component {
           postComment={this.props.postComment}
           favorite={false}
           postFavorite={this.props.postFavorite}
+          auth={this.props.auth}
+          deleteComment={this.props.deleteComment}
           />
       );
     }

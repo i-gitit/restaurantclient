@@ -462,3 +462,32 @@ export const signupUser = (creds) => (dispatch) => {
     })
     .catch(error => dispatch(signupError(error.message)))
 };
+
+export const deleteComment = (commentId) => (dispatch) => {
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'comments/' + commentId, {
+        method: "DELETE",
+        headers: {
+          'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+    .then(response => response.json())
+    .then(comment => { console.log('comment Deleted', comment);  dispatch(fetchComments()); alert('comment successfully Deleted'); })
+    //.catch(error => dispatch(favoritesFailed(error.message)));
+    .catch(error =>{alert(error)});
+};
