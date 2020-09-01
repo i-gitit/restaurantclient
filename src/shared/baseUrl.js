@@ -1,1 +1,1 @@
-export const baseUrl = 'http://localhost:3000/';
+export const baseUrl = 'https://glacial-thicket-58496.herokuapp.com/';
